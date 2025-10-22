@@ -1,0 +1,21 @@
+# Conjunto de dados - Tamanho das Escadas
+# Cada linha representa o número de degraus (N) para teste
+# 
+# Formato: um valor por linha
+# 
+# Para cada valor, serão realizadas 30 execuções para calcular
+# a mediana do tempo de execução e consumo de memória.
+#
+# CONJUNTO DE COMPARAÇÃO: FORÇA BRUTA vs DP BOTTOM-UP
+# Valores pequenos que permitem executar AMBOS os algoritmos
+# Progressão: 10 → 20 → 30 (mostra crescimento exponencial vs linear)
+#
+# N ≤ 35: Força Bruta executa (mas fica cada vez mais lenta)
+# Todos: DP Bottom-up executa rapidamente
+
+10
+20
+30
+35
+41
+
