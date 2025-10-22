@@ -27,6 +27,7 @@ PAA-TRAB02-PROGRAMACAO-DINAMICA/
 ├── main.py              # 🚀 Programa principal (análise comparativa)
 ├── benchmark.py         # 📊 Benchmark (execuções múltiplas, mediana)
 ├── measure_realtime.py  # ⏱️ Medida de tempo real (uma rodada)
+├── generate_graphs.py   # 📈 Gerador de gráficos (visualização)
 ├── examples.py          # 📚 Exemplos de uso
 └── test_staircase.py    # ✅ Testes unitários
 ```
@@ -118,6 +119,19 @@ python test_staircase.py
 ```bash
 python examples.py
 ```
+
+**Gerar Gráficos (análise visual):**
+```bash
+# Gera gráficos a partir do benchmark_results.csv
+python generate_graphs.py
+
+# Ou especificar arquivo CSV
+python generate_graphs.py benchmark_results.csv
+```
+> Gera 3 gráficos:
+> - `grafico_tempo.png` - Barras comparando tempo de execução
+> - `grafico_memoria.png` - Linhas comparando consumo de memória  
+> - `grafico_speedup.png` - Barras mostrando speedup (quantas vezes DP é mais rápido)
 
 ## 📊 Exemplo de Saída
 
@@ -265,6 +279,18 @@ Após executar o benchmark, os seguintes arquivos são criados:
 - `benchmark_results.csv` - Dados em CSV (tempo em segundos, memória em bytes)
   - Formato: Algoritmo, N, Mediana_Tempo_s, Media_Tempo_s, etc.
   - Ideal para análise em Excel, Python (pandas), R, etc.
+
+### 📈 Gráficos Gerados (generate_graphs.py)
+
+Após executar `python generate_graphs.py`:
+
+- `grafico_tempo.png` - **Gráfico de barras** comparando tempo de execução
+  - Eixo Y em escala logarítmica (crescimento exponencial vs linear)
+  - Rótulos formatados (µs, ms, s)
+  
+- `grafico_memoria.png` - **Gráfico de linhas** comparando consumo de memória
+  - Mostra crescimento linear de ambos os algoritmos
+  - Rótulos formatados (B, KB, MB)
 
 ## 🎯 Recomendações de Uso
 
