@@ -39,15 +39,17 @@ Projeto simplificado: mantidas apenas as duas abordagens solicitadas.
    - Arquivo: `recursiveclimb.py`
    - Função: `climb_stairs_recursive(n)`
    - Método: Recursão pura sem otimização
-   - Complexidade de Tempo: O(2^n)
+   - Complexidade de Tempo: **O(φⁿ)** onde φ ≈ 1.618 (exponencial)
    - Complexidade de Espaço: O(n) - pilha de recursão
+   - **Adequado para**: N ≤ 40
 
 ### 2. **PROGRAMAÇÃO DINÂMICA (Bottom-up)**
    - Arquivo: `dpclimb.py`
    - Função: `climb_stairs_dp(n)`
    - Método: Tabulação de baixo para cima
-   - Complexidade de Tempo: O(n)
-   - Complexidade de Espaço: O(n)
+   - Complexidade de Tempo: **O(n)** (linear)
+   - Complexidade de Espaço: O(n) - tabela dp[]
+   - **Adequado para**: Qualquer N
 
 ## 🔧 Implementações Auxiliares
 
@@ -88,11 +90,23 @@ python main.py 10 20 30 40 50
 
 **Benchmark Completo (30 execuções, mediana):**
 ```bash
-# Usa conjunto de dados do inputs.txt (100, 1000, 10000)
+# Usa conjunto de dados do inputs.txt
 python benchmark.py
 
 # Personalizar número de execuções (ex: 50)
 python benchmark.py 50
+```
+
+**Medição de Tempo Real (uma única execução):**
+```bash
+# Medir força bruta
+python measure_realtime.py --algo brute -n 30 --repeat 3
+
+# Medir DP bottom-up
+python measure_realtime.py --algo dp -n 1000 --repeat 3
+
+# Usar valores do inputs.txt
+python measure_realtime.py --algo dp --from-inputs
 ```
 
 **Executar Testes Unitários:**
@@ -164,8 +178,48 @@ Esta é a sequência de Fibonacci modificada!
 
 | Abordagem | Tempo | Espaço | Adequado para |
 |-----------|-------|--------|---------------|
-| Recursão Pura | O(2^n) | O(n) | n ≤ 35 |
+| Recursão Pura | O(φⁿ)* | O(n) | n ≤ 40 |
 | DP Bottom-up | O(n) | O(n) | Qualquer n |
+
+\* *φ ≈ 1.618 (Golden Ratio) - crescimento exponencial*
+
+## 📊 Resultados Empíricos (Benchmark)
+
+### Comparação de Desempenho (30 execuções, mediana)
+
+| N | Força Bruta | DP Bottom-up | Speedup |
+|---|-------------|--------------|---------|
+| 10 | 8.45 µs | 20.53 µs | 0.4x |
+| 20 | 925.74 µs | 53.15 µs | **17.4x** |
+| 30 | 114.86 ms | 109.41 µs | **1.050x** |
+| 35 | 1.27 s | 139.41 µs | **9.090x** |
+| 41 | 22.71 s | 168.08 µs | **135.134x** |
+
+### 🔥 Observações Principais:
+
+1. **Crescimento Exponencial da Força Bruta:**
+   - N=10→20: tempo aumenta **~109x**
+   - N=20→30: tempo aumenta **~124x**
+   - N=35→41: tempo aumenta **~18x**
+   
+2. **Crescimento Linear da DP:**
+   - Tempo aumenta proporcionalmente a N
+   - Consistente e previsível
+   
+3. **Ponto de Virada:**
+   - Para **N ≤ 10**: Força bruta é competitiva
+   - Para **N ≥ 20**: DP domina completamente
+
+4. **Escalabilidade:**
+   - **N=50** (projeção): Força bruta ~30 minutos, DP ~250 µs
+   - **Speedup estimado**: ~7.200.000x
+
+### 💾 Consumo de Memória
+
+Ambos os algoritmos usam memória O(n):
+- **Força Bruta**: Pilha de recursão (320-512 bytes para N=30-41)
+- **DP Bottom-up**: Tabela dp[] (864-1304 bytes para N=30-41)
+- **Diferença**: DP usa ~2.5x mais memória (desprezível para N < 1000)
 
 ## 📝 Módulos
 
@@ -198,10 +252,25 @@ Programa principal que orquestra todos os módulos
 
 ## 🎓 Conceitos Aplicados
 
-- **Programação Dinâmica**: Técnica de otimização que resolve problemas complexos dividindo-os em subproblemas mais simples
-- **Memoização**: Armazenamento de resultados de chamadas de função para evitar recálculos
-- **Bottom-up vs Top-down**: Duas abordagens para aplicar programação dinâmica
-- **Otimização de Espaço**: Redução do uso de memória mantendo apenas dados necessários
+- **Programação Dinâmica**: Técnica de otimização que resolve problemas complexos dividindo-os em subproblemas mais simples e armazenando resultados intermediários
+- **Bottom-up (Tabulação)**: Construção da solução de baixo para cima, preenchendo uma tabela
+- **Recursão**: Abordagem que resolve o problema chamando a si mesma com subproblemas menores
+- **Análise de Complexidade**: Estudo teórico e empírico do crescimento do tempo e memória
+
+## 🔍 Arquivos Gerados
+
+Após executar o benchmark, os seguintes arquivos são criados:
+
+- `benchmark_results.txt` - Resultados detalhados formatados
+- `benchmark_results.csv` - Dados em CSV (tempo em segundos, memória em bytes)
+  - Formato: Algoritmo, N, Mediana_Tempo_s, Media_Tempo_s, etc.
+  - Ideal para análise em Excel, Python (pandas), R, etc.
+
+## 🎯 Recomendações de Uso
+
+- **Para N ≤ 15**: Ambas as abordagens são aceitáveis
+- **Para 15 < N ≤ 40**: DP é **dezenas a milhares de vezes** mais rápida
+- **Para N > 40**: Use **apenas DP** (força bruta é inviável)
 
 ## 👥 Equipe
 
