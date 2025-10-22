@@ -274,7 +274,7 @@ Após executar o benchmark, os seguintes arquivos são criados:
 
 ## 👥 Equipe
 
-[Adicione os nomes dos membros da equipe aqui]
+[Clśitenes Rodger e Victor Luz]
 
 ## 📄 Licença
 
