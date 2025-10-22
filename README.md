@@ -128,10 +128,9 @@ python generate_graphs.py
 # Ou especificar arquivo CSV
 python generate_graphs.py benchmark_results.csv
 ```
-> Gera 3 gráficos:
+> Gera 2 gráficos:
 > - `grafico_tempo.png` - Barras comparando tempo de execução
-> - `grafico_memoria.png` - Linhas comparando consumo de memória  
-> - `grafico_speedup.png` - Barras mostrando speedup (quantas vezes DP é mais rápido)
+> - `grafico_memoria.png` - Linhas comparando consumo de memória
 
 ## 📊 Exemplo de Saída
 
@@ -154,26 +153,75 @@ python generate_graphs.py benchmark_results.csv
 Configuração:
   • Número de execuções por teste: 30
   • Métrica principal: MEDIANA
-  • Conjunto de dados: inputs.txt
+  • Conjunto de dados: inputs.txt (10, 20, 30, 35, 41)
 
-Tamanhos das escadas (inputs.txt): [100, 1000, 10000]
+Tamanhos das escadas (inputs.txt): [10, 20, 30, 35, 41]
 
-N = 100:
+Algoritmo: 1. Recursão Pura (FORÇA BRUTA)
+N = 10:
   Executando 30 vezes... 10 20 30 ✓
-  → Mediana Tempo: 408.32 µs
-  → Mediana Memória: 3.84 KB
+  → Mediana Tempo: 8.45 µs
+  → Mediana Memória: 0 B
 
-...
+N = 20:
+  Executando 30 vezes... 10 20 30 ✓
+  → Mediana Tempo: 925.74 µs
+  → Mediana Memória: 160 B
+
+N = 30:
+  Executando 30 vezes... 10 20 30 ✓
+  → Mediana Tempo: 114.86 ms
+  → Mediana Memória: 320 B
+
+N = 35:
+  Executando 30 vezes... 10 20 30 ✓
+  → Mediana Tempo: 1.2676 s
+  → Mediana Memória: 416 B
+
+N = 41:
+  Executando 30 vezes... 10 20 30 ✓
+  → Mediana Tempo: 22.7116 s
+  → Mediana Memória: 512 B
+
+Algoritmo: 2. Programação Dinâmica BOTTOM-UP
+N = 10:
+  Executando 30 vezes... 10 20 30 ✓
+  → Mediana Tempo: 20.53 µs
+  → Mediana Memória: 176 B
+
+N = 20:
+  Executando 30 vezes... 10 20 30 ✓
+  → Mediana Tempo: 53.15 µs
+  → Mediana Memória: 464 B
+
+N = 30:
+  Executando 30 vezes... 10 20 30 ✓
+  → Mediana Tempo: 109.41 µs
+  → Mediana Memória: 864 B
+
+N = 35:
+  Executando 30 vezes... 10 20 30 ✓
+  → Mediana Tempo: 139.41 µs
+  → Mediana Memória: 1.04 KB
+
+N = 41:
+  Executando 30 vezes... 10 20 30 ✓
+  → Mediana Tempo: 168.08 µs
+  → Mediana Memória: 1.27 KB
 
 RESULTADOS DO BENCHMARK (MEDIANA)
 +-------+-------------------+---------------------+-----------------+
 |     N | Tempo (Mediana)   | Memória (Mediana)   | Tempo (Média)   |
 +=======+===================+=====================+=================+
-|   100 | 408.32 µs         | 3.84 KB             | 412.35 µs       |
+|    10 | 8.45 µs           | 0 B                 | 8.38 µs         |
 +-------+-------------------+---------------------+-----------------+
-|  1000 | 14.05 ms          | 81.91 KB            | 14.11 ms        |
+|    20 | 925.74 µs         | 160 B               | 955.31 µs       |
 +-------+-------------------+---------------------+-----------------+
-| 10000 | 177.03 ms         | 4.77 MB             | 177.46 ms       |
+|    30 | 114.86 ms         | 320 B               | 115.04 ms       |
++-------+-------------------+---------------------+-----------------+
+|    35 | 1.2676 s          | 416 B               | 1.2683 s        |
++-------+-------------------+---------------------+-----------------+
+|    41 | 22.7116 s         | 512 B               | 22.7143 s       |
 +-------+-------------------+---------------------+-----------------+
 
 ✓ Resultados detalhados salvos em: benchmark_results.txt
@@ -199,41 +247,54 @@ Esta é a sequência de Fibonacci modificada!
 
 ## 📊 Resultados Empíricos (Benchmark)
 
+### Conjunto de Dados (inputs.txt)
+```
+10, 20, 30, 35, 41
+```
+
 ### Comparação de Desempenho (30 execuções, mediana)
 
-| N | Força Bruta | DP Bottom-up | Speedup |
-|---|-------------|--------------|---------|
-| 10 | 8.45 µs | 20.53 µs | 0.4x |
-| 20 | 925.74 µs | 53.15 µs | **17.4x** |
-| 30 | 114.86 ms | 109.41 µs | **1.050x** |
-| 35 | 1.27 s | 139.41 µs | **9.090x** |
-| 41 | 22.71 s | 168.08 µs | **135.134x** |
+| N | Força Bruta (Tempo) | DP Bottom-up (Tempo) | Speedup | Força Bruta (Memória) | DP Bottom-up (Memória) |
+|---|---------------------|----------------------|---------|------------------------|-------------------------|
+| 10 | 8.45 µs | 20.53 µs | 0.4x | 0 B | 176 B |
+| 20 | 925.74 µs | 53.15 µs | **17.4x** | 160 B | 464 B |
+| 30 | 114.86 ms | 109.41 µs | **1.050x** | 320 B | 864 B |
+| 35 | 1.27 s | 139.41 µs | **9.093x** | 416 B | 1.04 KB |
+| 41 | 22.71 s | 168.08 µs | **135.134x** | 512 B | 1.27 KB |
 
 ### 🔥 Observações Principais:
 
 1. **Crescimento Exponencial da Força Bruta:**
-   - N=10→20: tempo aumenta **~109x**
-   - N=20→30: tempo aumenta **~124x**
-   - N=35→41: tempo aumenta **~18x**
+   - N=10→20: tempo aumenta **~109x** (8.45 µs → 925.74 µs)
+   - N=20→30: tempo aumenta **~124x** (925.74 µs → 114.86 ms)
+   - N=30→35: tempo aumenta **~11x** (114.86 ms → 1.27 s)
+   - N=35→41: tempo aumenta **~18x** (1.27 s → 22.71 s)
    
 2. **Crescimento Linear da DP:**
-   - Tempo aumenta proporcionalmente a N
-   - Consistente e previsível
+   - N=10→20: tempo aumenta **~2.6x** (20.53 µs → 53.15 µs)
+   - N=20→30: tempo aumenta **~2.1x** (53.15 µs → 109.41 µs)
+   - N=30→35: tempo aumenta **~1.3x** (109.41 µs → 139.41 µs)
+   - N=35→41: tempo aumenta **~1.2x** (139.41 µs → 168.08 µs)
+   - Tempo aumenta proporcionalmente a N (consistente e previsível)
    
 3. **Ponto de Virada:**
-   - Para **N ≤ 10**: Força bruta é competitiva
+   - Para **N ≤ 10**: Força bruta é mais rápida (~2.4x)
    - Para **N ≥ 20**: DP domina completamente
+   - **N=41**: DP é **135.134x mais rápida** que força bruta
 
 4. **Escalabilidade:**
+   - **N=41**: Força bruta leva **22.71 segundos**, DP leva **168.08 µs**
    - **N=50** (projeção): Força bruta ~30 minutos, DP ~250 µs
-   - **Speedup estimado**: ~7.200.000x
+   - **Speedup estimado N=50**: ~7.200.000x
 
 ### 💾 Consumo de Memória
 
 Ambos os algoritmos usam memória O(n):
-- **Força Bruta**: Pilha de recursão (320-512 bytes para N=30-41)
-- **DP Bottom-up**: Tabela dp[] (864-1304 bytes para N=30-41)
-- **Diferença**: DP usa ~2.5x mais memória (desprezível para N < 1000)
+- **Força Bruta**: Pilha de recursão
+  - N=10: 0 B | N=20: 160 B | N=30: 320 B | N=35: 416 B | N=41: 512 B
+- **DP Bottom-up**: Tabela dp[]
+  - N=10: 176 B | N=20: 464 B | N=30: 864 B | N=35: 1.04 KB | N=41: 1.27 KB
+- **Diferença**: DP usa ~2-3x mais memória (desprezível para valores práticos)
 
 ## 📝 Módulos
 
